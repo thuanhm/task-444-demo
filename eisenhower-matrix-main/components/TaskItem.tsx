@@ -1,6 +1,6 @@
 'use client';
 
-import { Checkbox, Tag, Tooltip } from 'antd';
+import { Checkbox, Tooltip } from 'antd';
 import { EditOutlined, CloseOutlined, BankOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import { Task, QuadrantType, DeadlineThresholds } from '@/types';
 import { QUADRANTS, DEADLINE_COLORS, STATUSES } from '@/constants';
@@ -67,23 +67,45 @@ export function TaskItem({
 
         <div className="flex flex-wrap items-center gap-1.5 mt-2">
           {task.department && (
-            <Tag icon={<BankOutlined />} color="blue">
-              {task.department}
-            </Tag>
+            <span
+              className="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-semibold rounded-sm"
+              style={{ backgroundColor: '#004A8F', color: '#FFFFFF' }}
+            >
+              <BankOutlined /> {task.department}
+            </span>
           )}
           {task.assignee && (
-            <Tag icon={<UserOutlined />}>{task.assignee}</Tag>
+            <span
+              className="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-semibold rounded-sm"
+              style={{ backgroundColor: '#EEF2F7', color: '#00203F', border: '1px solid #DCE3EC' }}
+            >
+              <UserOutlined /> {task.assignee}
+            </span>
           )}
-          {task.category && <Tag>{task.category}</Tag>}
-          <Tag color={statusColor} style={{ color: '#fff' }}>
+          {task.category && (
+            <span
+              className="inline-flex items-center px-2 py-0.5 text-[11px] font-semibold rounded-sm"
+              style={{ backgroundColor: '#FFFFFF', color: '#5C6B7F', border: '1px solid #DCE3EC' }}
+            >
+              {task.category}
+            </span>
+          )}
+          <span
+            className="inline-flex items-center px-2 py-0.5 text-[11px] font-bold rounded-sm"
+            style={{ backgroundColor: statusColor, color: '#FFFFFF' }}
+          >
             {t(`status.${task.status}`)}
-          </Tag>
+          </span>
           {task.dueDate && (
             <Tooltip title={t('fields.dueDate')}>
-              <Tag icon={<CalendarOutlined />} color={dueColor} style={{ color: '#fff' }}>
+              <span
+                className="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-bold rounded-sm"
+                style={{ backgroundColor: dueColor, color: '#FFFFFF' }}
+              >
+                <CalendarOutlined />
                 {formatDate(task.dueDate)}
                 {level !== 'none' && left !== null && (
-                  <span className="ml-1">
+                  <span>
                     (
                     {left < 0
                       ? `${t('tasks.lateBy')} ${Math.abs(left)}`
@@ -91,7 +113,7 @@ export function TaskItem({
                     )
                   </span>
                 )}
-              </Tag>
+              </span>
             </Tooltip>
           )}
         </div>
