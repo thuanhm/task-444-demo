@@ -1,0 +1,172 @@
+{
+  "appName": "Eisenhower Matrix",
+  "header": {
+    "title": "Eisenhower Matrix",
+    "subtitle": "Track tasks assigned by the board to each unit",
+    "unit": "VietinBank Bac Nghe An Branch"
+  },
+  "actions": {
+    "clearAll": "Clear All",
+    "stats": "Stats",
+    "add": "Add",
+    "cancel": "Cancel",
+    "signOut": "Sign out",
+    "deadlines": "Due alerts",
+    "export": "Export Excel",
+    "import": "Import Excel",
+    "template": "Template",
+    "close": "Close",
+    "report": "Draft report"
+  },
+  "quadrants": {
+    "doFirst": {
+      "title": "DO FIRST",
+      "subtitle": "Urgent & Important"
+    },
+    "schedule": {
+      "title": "SCHEDULE",
+      "subtitle": "Not Urgent but Important"
+    },
+    "delegate": {
+      "title": "DELEGATE",
+      "subtitle": "Urgent but Not Important"
+    },
+    "eliminate": {
+      "title": "ELIMINATE",
+      "subtitle": "Not Urgent & Not Important"
+    },
+    "addButton": "+ Add",
+    "emptyHint": "No tasks yet. Click \"+ Add\" to create one."
+  },
+  "home": {
+    "statsCard": {
+      "urgentImportant": "Do First",
+      "notUrgentImportant": "Schedule",
+      "urgentNotImportant": "Delegate",
+      "notUrgentNotImportant": "Eliminate"
+    }
+  },
+  "modals": {
+    "statistics": {
+      "title": "Task Statistics",
+      "totalTasks": "Total Tasks",
+      "completed": "Completed",
+      "pending": "Pending",
+      "completionRate": "Completion Rate",
+      "tasksByQuadrant": "Tasks by Quadrant",
+      "completionStatus": "Completion Status",
+      "chartView": "Chart",
+      "listView": "List",
+      "allTasksDetail": "All Tasks Detail",
+      "summaryTotal": "Total:",
+      "summaryCompleted": "Completed:",
+      "summaryPending": "Pending:",
+      "statusDone": "✓ Done",
+      "statusPending": "⏳ Pending",
+      "noTasks": "No tasks to display",
+      "byDepartment": "By owning unit"
+    },
+    "taskForm": {
+      "addTitle": "Add task",
+      "editTitle": "Edit task",
+      "contentLabel": "Task",
+      "contentPlaceholder": "e.g. Monthly funding report requested by the board",
+      "departmentPlaceholder": "e.g. Corporate Banking",
+      "assigneePlaceholder": "e.g. John Smith",
+      "categoryPlaceholder": "e.g. Report, Dossier, Customer",
+      "notePlaceholder": "Progress, blockers, outcome...",
+      "submit": "Add task",
+      "save": "Save changes",
+      "cancel": "Cancel"
+    },
+    "deadline": {
+      "title": "Deadline alerts",
+      "overdue": "Overdue",
+      "urgent": "Red (due now)",
+      "soon": "Amber (due soon)",
+      "redThreshold": "Red when days left ≤",
+      "amberThreshold": "Amber when days left ≤",
+      "daysLeft": "Days left",
+      "empty": "Nothing overdue or due soon."
+    },
+    "report": {
+      "title": "Draft report for leadership",
+      "scope": "Report is built from",
+      "scopeUnit": "tasks currently shown by the filter.",
+      "period": "Report type",
+      "periodLabel": "Reporting period",
+      "periodPlaceholder": "e.g. August 2026",
+      "recipient": "Recipient",
+      "unit": "Reporting unit",
+      "author": "Prepared by",
+      "authorPlaceholder": "Full name",
+      "extraNote": "Extra instruction",
+      "extraNotePlaceholder": "e.g. highlight overdue tasks of one unit",
+      "generate": "Generate",
+      "generating": "Drafting...",
+      "copy": "Copy",
+      "copied": "Copied",
+      "download": "Download (.doc)",
+      "result": "Report content (editable)",
+      "reviewHint": "Drafted by AI from system data. Review the figures and edit before signing."
+    }
+  },
+  "confirm": {
+    "clearAll": "Are you sure you want to clear ALL tasks? This cannot be undone.",
+    "deleteTask": "Are you sure you want to delete this task?"
+  },
+  "seo": {
+    "title": "Eisenhower Matrix – Online Task Prioritization Tool",
+    "description": "Use this simple online Eisenhower Matrix to organize and prioritize your tasks by urgency and importance. A lightweight productivity tool for effective time management."
+  },
+  "tasks": {
+    "editTitle": "Edit task",
+    "deleteTitle": "Delete task",
+    "toggleTitle": "Mark as done",
+    "lateBy": "late",
+    "daysLeftShort": "left"
+  },
+  "footer": {
+    "text": "Internal task management tool — VietinBank Bac Nghe An Branch",
+    "note": "Data is stored centrally on the server and shared by the team."
+  },
+  "states": {
+    "loading": "Loading data from the server...",
+    "syncing": "syncing..."
+  },
+  "fields": {
+    "content": "Task",
+    "department": "Owning unit",
+    "assignee": "Assignee",
+    "dueDate": "Due date",
+    "category": "Task type",
+    "status": "Status",
+    "quadrant": "Priority group",
+    "note": "Progress note"
+  },
+  "status": {
+    "chua-bat-dau": "Not started",
+    "dang-lam": "In progress",
+    "hoan-thanh": "Done"
+  },
+  "summary": {
+    "total": "Total tasks",
+    "overdue": "Overdue",
+    "dueSoon": "Due soon"
+  },
+  "filters": {
+    "keyword": "Search",
+    "keywordPlaceholder": "Task, unit, assignee...",
+    "all": "All",
+    "dueFrom": "Due from",
+    "dueTo": "Due to",
+    "onlyAtRisk": "Only overdue / due soon",
+    "reset": "Reset filters"
+  },
+  "notices": {
+    "exported": "Exported the current filtered list to Excel.",
+    "imported": "Tasks imported:",
+    "importEmpty": "No valid rows found. Download the template to check the columns.",
+    "importFailed": "Could not read the file. Check the Excel/CSV format."
+  }
+}

@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+/* ============================================================
+   BẢNG MÀU NHẬN DIỆN THƯƠNG HIỆU VIETINBANK
+   Xanh chủ đạo #0072BC - Xanh đậm #003B71 - Đỏ #E31837 - Vàng #F5A81C
+   ============================================================ */
+:root {
+  --vtb-blue: #0072BC;
+  --vtb-blue-dark: #005A96;
+  --vtb-navy: #003B71;
+  --vtb-red: #E31837;
+  --vtb-gold: #F5A81C;
+  --vtb-teal: #00A0A8;
+  --vtb-slate: #7A8FA6;
+  --vtb-light-blue: #DCEBF8;
+
+  --background: #EEF3F8;
+  --foreground: #003B71;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Nút chính - nền xanh VietinBank, chữ trắng */
+.btn-blue {
+  background-color: var(--vtb-blue);
+  border: 2px solid var(--vtb-navy);
+  color: #FFFFFF;
+  position: relative;
+  transition: transform 120ms ease-in-out, box-shadow 120ms ease-in-out,
+    background-color 120ms ease-in-out;
+}
+
+.btn-blue:hover {
+  background-color: var(--vtb-blue-dark);
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0px 0px var(--vtb-navy);
+}
+
+.btn-blue:active {
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0px 0px var(--vtb-navy);
+}
+
+/* Nút phụ - nền trắng, viền xanh đậm */
+.btn-white {
+  background-color: #ffffff;
+  border: 2px solid var(--vtb-navy);
+  color: var(--vtb-navy);
+  position: relative;
+  transition: transform 120ms ease-in-out, box-shadow 120ms ease-in-out;
+}
+
+.btn-white:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0px 0px var(--vtb-navy);
+}
+
+.btn-white:active {
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0px 0px var(--vtb-navy);
+}
+
+/* Ô tích chọn tùy chỉnh */
+.custom-checkbox {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--vtb-navy);
+  border-radius: 3px;
+  background: white;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.custom-checkbox:checked {
+  background: var(--vtb-blue);
+  border-color: var(--vtb-blue);
+}
+
+.custom-checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  color: white;
+  font-size: 14px;
+  top: -2px;
+  left: 2px;
+  font-weight: bold;
+}
+
+/* Thẻ công việc */
+.task-item {
+  background-color: white;
+}
+
+.task-item.dragging {
+  opacity: 0.5;
+}
+
+.task-item.completed {
+  opacity: 0.6;
+}
+
+.task-item.completed .task-text {
+  text-decoration: line-through;
+}
+
+/* Màu viền theo từng nhóm công việc */
+.quadrant-urgent-important {
+  border-left: 4px solid var(--vtb-red);
+}
+
+.quadrant-urgent-important:hover {
+  background-color: #FDE7EA !important;
+}
+
+.quadrant-not-urgent-important {
+  border-left: 4px solid var(--vtb-blue);
+}
+
+.quadrant-not-urgent-important:hover {
+  background-color: var(--vtb-light-blue) !important;
+}
+
+.quadrant-urgent-not-important {
+  border-left: 4px solid var(--vtb-gold);
+}
+
+.quadrant-urgent-not-important:hover {
+  background-color: #FEF3DC !important;
+}
+
+.quadrant-not-urgent-not-important {
+  border-left: 4px solid var(--vtb-slate);
+}
+
+.quadrant-not-urgent-not-important:hover {
+  background-color: #EAEFF4 !important;
+}
+
+/* Không đổi nền khi đang chỉnh sửa */
+.task-item.editing:hover {
+  background-color: white !important;
+}
+
+/* Vùng thả kéo - thả */
+.drop-zone {
+  height: 300px;
+  overflow-y: auto;
+  transition: background-color 150ms ease-in-out;
+  padding-right: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--vtb-light-blue) transparent;
+}
+
+/* Thanh cuộn tùy chỉnh cho trình duyệt nhân Webkit */
+.drop-zone::-webkit-scrollbar {
+  width: 6px;
+}
+
+.drop-zone::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 4px 0;
+}
+
+.drop-zone::-webkit-scrollbar-thumb {
+  background: var(--vtb-light-blue);
+  border-radius: 3px;
+  transition: background-color 120ms ease-in-out;
+}
+
+.drop-zone::-webkit-scrollbar-thumb:hover {
+  background: #B9D7EE;
+}
+
+.drop-zone::-webkit-scrollbar-thumb:active {
+  background: #9CC5E5;
+}
+
+.drop-zone.drag-over {
+  background-color: var(--vtb-light-blue);
+  border: 2px dashed var(--vtb-navy);
+}
+
+/* Trạng thái trống */
+.empty-state {
+  opacity: 0.45;
+}
+
+/* Tôn trọng thiết lập giảm chuyển động của người dùng */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

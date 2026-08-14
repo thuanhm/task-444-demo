@@ -1,0 +1,172 @@
+{
+  "appName": "Ma trận Eisenhower - VietinBank Bắc Nghệ An",
+  "header": {
+    "title": "MA TRẬN EISENHOWER",
+    "subtitle": "Theo dõi công việc Ban giám đốc giao cho các phòng",
+    "unit": "VietinBank Chi nhánh Bắc Nghệ An"
+  },
+  "actions": {
+    "clearAll": "Xóa tất cả",
+    "stats": "Thống kê",
+    "add": "Thêm",
+    "cancel": "Hủy",
+    "signOut": "Thoát",
+    "deadlines": "Cảnh báo hạn",
+    "export": "Xuất Excel",
+    "import": "Nhập Excel",
+    "template": "Tệp mẫu",
+    "close": "Đóng",
+    "report": "Tạo báo cáo"
+  },
+  "quadrants": {
+    "doFirst": {
+      "title": "LÀM NGAY",
+      "subtitle": "Khẩn cấp & Quan trọng"
+    },
+    "schedule": {
+      "title": "LÊN LỊCH",
+      "subtitle": "Quan trọng nhưng không khẩn cấp"
+    },
+    "delegate": {
+      "title": "GIAO VIỆC",
+      "subtitle": "Khẩn cấp nhưng không quan trọng"
+    },
+    "eliminate": {
+      "title": "LOẠI BỎ",
+      "subtitle": "Không khẩn cấp & Không quan trọng"
+    },
+    "addButton": "+ Thêm",
+    "emptyHint": "Chưa có công việc nào. Bấm \"+ Thêm\" để tạo mới."
+  },
+  "home": {
+    "statsCard": {
+      "urgentImportant": "Làm ngay",
+      "notUrgentImportant": "Lên lịch",
+      "urgentNotImportant": "Giao việc",
+      "notUrgentNotImportant": "Loại bỏ"
+    }
+  },
+  "modals": {
+    "statistics": {
+      "title": "Thống kê công việc",
+      "totalTasks": "Tổng số công việc",
+      "completed": "Đã hoàn thành",
+      "pending": "Đang thực hiện",
+      "completionRate": "Tỷ lệ hoàn thành",
+      "tasksByQuadrant": "Công việc theo nhóm",
+      "completionStatus": "Tình trạng hoàn thành",
+      "chartView": "Biểu đồ",
+      "listView": "Danh sách",
+      "allTasksDetail": "Chi tiết toàn bộ công việc",
+      "summaryTotal": "Tổng:",
+      "summaryCompleted": "Hoàn thành:",
+      "summaryPending": "Đang làm:",
+      "statusDone": "✓ Xong",
+      "statusPending": "⏳ Đang làm",
+      "noTasks": "Chưa có công việc để hiển thị",
+      "byDepartment": "Theo phòng phụ trách"
+    },
+    "taskForm": {
+      "addTitle": "Thêm công việc",
+      "editTitle": "Sửa công việc",
+      "contentLabel": "Nội dung công việc",
+      "contentPlaceholder": "VD: Báo cáo huy động vốn tháng 8 theo chỉ đạo của Ban giám đốc",
+      "departmentPlaceholder": "VD: Phòng Khách hàng doanh nghiệp",
+      "assigneePlaceholder": "VD: Nguyễn Văn A",
+      "categoryPlaceholder": "VD: Báo cáo, Hồ sơ, Khách hàng",
+      "notePlaceholder": "Tiến độ, vướng mắc, kết quả xử lý...",
+      "submit": "Thêm công việc",
+      "save": "Lưu thay đổi",
+      "cancel": "Hủy"
+    },
+    "deadline": {
+      "title": "Cảnh báo công việc theo hạn chót",
+      "overdue": "Quá hạn",
+      "urgent": "Đỏ (đến hạn)",
+      "soon": "Vàng (sắp đến hạn)",
+      "redThreshold": "Báo đỏ khi còn ≤ (ngày)",
+      "amberThreshold": "Báo vàng khi còn ≤ (ngày)",
+      "daysLeft": "Còn (ngày)",
+      "empty": "Không có công việc nào quá hạn hoặc sắp đến hạn."
+    },
+    "report": {
+      "title": "Tạo báo cáo gửi lãnh đạo",
+      "scope": "Báo cáo được lập từ",
+      "scopeUnit": "nhiệm vụ đang hiển thị theo bộ lọc.",
+      "period": "Loại báo cáo",
+      "periodLabel": "Kỳ báo cáo",
+      "periodPlaceholder": "VD: tháng 8/2026",
+      "recipient": "Nơi nhận",
+      "unit": "Đơn vị lập báo cáo",
+      "author": "Người lập",
+      "authorPlaceholder": "Họ tên người lập báo cáo",
+      "extraNote": "Yêu cầu thêm",
+      "extraNotePlaceholder": "VD: nhấn mạnh các việc quá hạn của Phòng KHDN",
+      "generate": "Tạo báo cáo",
+      "generating": "Đang soạn thảo...",
+      "copy": "Sao chép",
+      "copied": "Đã sao chép",
+      "download": "Tải về (.doc)",
+      "result": "Nội dung báo cáo (có thể sửa trực tiếp)",
+      "reviewHint": "Báo cáo do AI soạn từ dữ liệu trên hệ thống. Cần đọc, đối chiếu số liệu và chỉnh sửa trước khi trình ký."
+    }
+  },
+  "tasks": {
+    "editTitle": "Sửa công việc",
+    "deleteTitle": "Xóa công việc",
+    "toggleTitle": "Đánh dấu hoàn thành",
+    "lateBy": "quá",
+    "daysLeftShort": "còn"
+  },
+  "confirm": {
+    "clearAll": "Bạn có chắc chắn muốn xóa TẤT CẢ công việc? Thao tác này không thể hoàn tác.",
+    "deleteTask": "Bạn có chắc chắn muốn xóa công việc này?"
+  },
+  "footer": {
+    "text": "Công cụ quản trị công việc nội bộ — VietinBank Chi nhánh Bắc Nghệ An",
+    "note": "Dữ liệu được lưu tập trung trên máy chủ, dùng chung cho cả phòng."
+  },
+  "seo": {
+    "title": "Ma trận Eisenhower – Công cụ ưu tiên công việc | VietinBank Bắc Nghệ An",
+    "description": "Công cụ Ma trận Eisenhower trực tuyến giúp cán bộ VietinBank Chi nhánh Bắc Nghệ An sắp xếp và ưu tiên công việc theo mức độ khẩn cấp và quan trọng."
+  },
+  "states": {
+    "loading": "Đang tải dữ liệu từ máy chủ...",
+    "syncing": "đang đồng bộ..."
+  },
+  "fields": {
+    "content": "Nội dung công việc",
+    "department": "Phòng phụ trách",
+    "assignee": "Người thực hiện",
+    "dueDate": "Hạn chót",
+    "category": "Loại công việc",
+    "status": "Trạng thái",
+    "quadrant": "Nhóm ưu tiên",
+    "note": "Ghi chú tiến độ"
+  },
+  "status": {
+    "chua-bat-dau": "Chưa bắt đầu",
+    "dang-lam": "Đang làm",
+    "hoan-thanh": "Hoàn thành"
+  },
+  "summary": {
+    "total": "Tổng số việc",
+    "overdue": "Quá hạn",
+    "dueSoon": "Sắp đến hạn"
+  },
+  "filters": {
+    "keyword": "Tìm kiếm",
+    "keywordPlaceholder": "Nội dung, phòng, cán bộ...",
+    "all": "Tất cả",
+    "dueFrom": "Hạn từ ngày",
+    "dueTo": "Hạn đến ngày",
+    "onlyAtRisk": "Chỉ hiện việc quá hạn / sắp đến hạn",
+    "reset": "Đặt lại bộ lọc"
+  },
+  "notices": {
+    "exported": "Đã xuất tệp Excel danh sách đang hiển thị.",
+    "imported": "Đã nhập số công việc:",
+    "importEmpty": "Tệp không có dòng nào hợp lệ. Hãy tải tệp mẫu để đối chiếu cột.",
+    "importFailed": "Không đọc được tệp. Kiểm tra lại định dạng Excel/CSV."
+  }
+}
