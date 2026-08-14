@@ -6,9 +6,10 @@ import {
   useContext,
   useEffect,
   useState,
-  type FormEvent,
   type ReactNode,
 } from 'react';
+import { Form, Input, Button, Card, Typography, Spin, Alert } from 'antd';
+import { LockOutlined } from '@ant-design/icons';
 import { ACCESS_STORAGE_KEY, apiFetch } from '@/lib/apiClient';
 
 interface AccessContextValue {
@@ -32,12 +33,10 @@ export const useAccess = () => {
  */
 export function AccessProvider({ children }: { children: ReactNode }) {
   const [accessKey, setAccessKey] = useState<string | null>(null);
-  const [inputValue, setInputValue] = useState('');
   const [checking, setChecking] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Kiểm tra lại mã đã lưu khi mở trang
   useEffect(() => {
     const saved = localStorage.getItem(ACCESS_STORAGE_KEY);
     if (!saved) {
@@ -54,12 +53,10 @@ export function AccessProvider({ children }: { children: ReactNode }) {
   const signOut = useCallback(() => {
     localStorage.removeItem(ACCESS_STORAGE_KEY);
     setAccessKey(null);
-    setInputValue('');
   }, []);
 
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    const value = inputValue.trim();
+  const handleSubmit = async (values: { accessKey: string }) => {
+    const value = values.accessKey.trim();
     if (!value) return;
 
     setSubmitting(true);
@@ -78,53 +75,58 @@ export function AccessProvider({ children }: { children: ReactNode }) {
 
   if (checking) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-sm text-[#003B71]">
-        Đang kiểm tra mã truy cập...
+      <div className="min-h-screen flex items-center justify-center">
+        <Spin tip="Đang kiểm tra mã truy cập..." size="large">
+          <div style={{ padding: 60 }} />
+        </Spin>
       </div>
     );
   }
 
   if (!accessKey) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="w-full max-w-sm bg-white border-2 border-[#003B71] p-6">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="inline-block w-2 h-6 bg-[#F5A81C]" />
-            <span className="text-[11px] font-bold uppercase tracking-widest text-[#0072BC]">
+      <div className="min-h-screen flex items-center justify-center px-4 bg-[#EEF2F7]">
+        <Card
+          style={{ maxWidth: 380, width: '100%', border: '2px solid #00203F', borderRadius: 2 }}
+        >
+          <div className="flex items-center gap-2 mb-3">
+            <span className="inline-block w-2 h-6 bg-[#D8A13B]" />
+            <span className="text-[11px] font-bold uppercase tracking-widest text-[#004A8F]">
               VietinBank Chi nhánh Bắc Nghệ An
             </span>
           </div>
-          <h1 className="text-xl font-bold text-[#003B71] mb-1">Ma trận Eisenhower</h1>
-          <p className="text-xs text-[#7A8FA6] mb-4">
+          <Typography.Title level={4} style={{ color: '#00203F', marginTop: 0 }}>
+            Ma trận Eisenhower
+          </Typography.Title>
+          <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>
             Nhập mã truy cập của phòng để xem bảng công việc dùng chung.
-          </p>
+          </Typography.Paragraph>
 
-          <form onSubmit={handleSubmit} className="space-y-3">
-            <input
-              type="password"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Mã truy cập"
-              autoFocus
-              className="w-full px-3 py-2 border-2 border-[#003B71] text-sm focus:outline-none focus:ring-2 focus:ring-[#0072BC]"
-            />
-            {error && <p className="text-xs font-semibold text-[#E31837]">{error}</p>}
-            <button
-              type="submit"
-              disabled={submitting}
-              className="btn-blue w-full px-4 py-2 font-bold text-sm uppercase disabled:opacity-60"
+          <Form onFinish={handleSubmit} layout="vertical">
+            <Form.Item
+              name="accessKey"
+              rules={[{ required: true, message: 'Vui lòng nhập mã truy cập.' }]}
             >
-              {submitting ? 'Đang kiểm tra...' : 'Đăng nhập'}
-            </button>
-          </form>
-        </div>
+              <Input.Password
+                prefix={<LockOutlined />}
+                placeholder="Mã truy cập"
+                autoFocus
+                size="large"
+              />
+            </Form.Item>
+
+            {error && <Alert type="error" message={error} showIcon style={{ marginBottom: 16 }} />}
+
+            <Button type="primary" htmlType="submit" loading={submitting} block size="large">
+              Đăng nhập
+            </Button>
+          </Form>
+        </Card>
       </div>
     );
   }
 
   return (
-    <AccessContext.Provider value={{ accessKey, signOut }}>
-      {children}
-    </AccessContext.Provider>
+    <AccessContext.Provider value={{ accessKey, signOut }}>{children}</AccessContext.Provider>
   );
 }

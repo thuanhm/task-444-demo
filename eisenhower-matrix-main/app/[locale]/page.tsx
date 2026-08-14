@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { Card, Statistic, Alert, Row, Col, Spin } from 'antd';
 import {
   DndContext,
   DragEndEvent,
@@ -252,46 +253,47 @@ function TaskBoard() {
       />
 
       {error && (
-        <div className="bg-[#FDE7EA] border-b-2 border-[#E31837] px-4 sm:px-6 py-2">
-          <p className="max-w-7xl mx-auto text-xs sm:text-sm font-semibold text-[#E31837]">
-            {error}
-          </p>
+        <div className="px-4 sm:px-6 pt-3">
+          <Alert type="error" message={error} showIcon closable className="max-w-7xl mx-auto" />
         </div>
       )}
 
       {notice && (
-        <div className="bg-[#DCEBF8] border-b-2 border-[#0072BC] px-4 sm:px-6 py-2">
-          <p className="max-w-7xl mx-auto text-xs sm:text-sm font-semibold text-[#003B71] flex items-center justify-between gap-4">
-            {notice}
-            <button onClick={() => setNotice(null)} className="font-bold">
-              ×
-            </button>
-          </p>
+        <div className="px-4 sm:px-6 pt-3">
+          <Alert
+            type="info"
+            message={notice}
+            showIcon
+            closable
+            onClose={() => setNotice(null)}
+            className="max-w-7xl mx-auto"
+          />
         </div>
       )}
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8 flex-1 w-full">
         {/* Dải số liệu nhanh */}
-        <div className="grid grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 mb-4 sm:mb-6">
+        <Row gutter={[8, 8]} className="mb-4 sm:mb-6">
           {[
-            { label: t('summary.total'), value: summary.total, color: '#003B71' },
-            { label: t('status.chua-bat-dau'), value: summary.notStarted, color: '#7A8FA6' },
-            { label: t('status.dang-lam'), value: summary.inProgress, color: '#0072BC' },
-            { label: t('status.hoan-thanh'), value: summary.done, color: '#0E9F6E' },
+            { label: t('summary.total'), value: summary.total, color: '#00203F' },
+            { label: t('status.chua-bat-dau'), value: summary.notStarted, color: '#5C6B7F' },
+            { label: t('status.dang-lam'), value: summary.inProgress, color: '#004A8F' },
+            { label: t('status.hoan-thanh'), value: summary.done, color: '#1E8E5A' },
             { label: t('summary.overdue'), value: summary.overdue, color: DEADLINE_COLORS.overdue },
             { label: t('summary.dueSoon'), value: summary.dueSoon, color: DEADLINE_COLORS.amber },
           ].map((item) => (
-            <div
-              key={item.label}
-              className="bg-white border-2 border-[#003B71] p-2 sm:p-3 text-center"
-            >
-              <div className="text-xl sm:text-2xl font-bold" style={{ color: item.color }}>
-                {item.value}
-              </div>
-              <div className="text-[10px] sm:text-xs text-[#7A8FA6] mt-0.5">{item.label}</div>
-            </div>
+            <Col key={item.label} span={8} lg={4}>
+              <Card
+                size="small"
+                style={{ border: '2px solid #00203F', borderRadius: 2, textAlign: 'center' }}
+                styles={{ body: { padding: '10px 8px' } }}
+              >
+                <Statistic value={item.value} valueStyle={{ color: item.color, fontSize: 22, fontWeight: 700 }} />
+                <div className="text-[10px] sm:text-xs text-[#5C6B7F] mt-0.5">{item.label}</div>
+              </Card>
+            </Col>
           ))}
-        </div>
+        </Row>
 
         <FilterBar
           filters={filters}
@@ -302,7 +304,9 @@ function TaskBoard() {
         />
 
         {isLoading && (
-          <p className="text-sm text-[#7A8FA6] mb-4">{t('states.loading')}</p>
+          <div className="mb-4 flex items-center gap-2 text-sm text-[#5C6B7F]">
+            <Spin size="small" /> {t('states.loading')}
+          </div>
         )}
 
         <DndContext

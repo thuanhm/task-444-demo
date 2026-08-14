@@ -1,7 +1,20 @@
 'use client';
 
+import { Layout, Space, Button, Badge } from 'antd';
+import {
+  BellOutlined,
+  BarChartOutlined,
+  FileTextOutlined,
+  DownloadOutlined,
+  UploadOutlined,
+  FileExcelOutlined,
+  ClearOutlined,
+  LogoutOutlined,
+} from '@ant-design/icons';
 import { useCommonTranslation } from '@/hooks/useTranslation';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+
+const { Header: AntHeader } = Layout;
 
 interface HeaderProps {
   onClearAll: () => void;
@@ -30,16 +43,21 @@ export function Header({
 }: HeaderProps) {
   const { t } = useCommonTranslation();
 
-  const buttonClass =
-    'px-3 py-1.5 border-2 border-[#003B71] font-semibold uppercase text-xs sm:text-sm hover:-translate-y-px hover:-translate-x-px transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-white';
-
   return (
-    <header className="bg-[#0072BC] border-b-4 border-[#003B71]">
+    <AntHeader
+      style={{
+        height: 'auto',
+        lineHeight: 'normal',
+        padding: 0,
+        background: '#004A8F',
+        borderBottom: '4px solid #00203F',
+      }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-5">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
-              <span className="inline-block w-2 h-5 sm:h-6 bg-[#F5A81C]" />
+              <span className="inline-block w-2 h-5 sm:h-6 bg-[#D8A13B]" />
               <span className="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-white/90">
                 {t('header.unit')}
               </span>
@@ -55,71 +73,61 @@ export function Header({
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 shrink-0">
+          <Space wrap size={8}>
             <LanguageSwitcher />
 
-            {/* Cảnh báo hạn chót, kèm số việc đang đến hạn */}
-            <button
-              onClick={onShowDeadlines}
-              className={`${buttonClass} bg-[#F5A81C] text-[#003B71]`}
-            >
-              🔔 {t('actions.deadlines')}
-              {alertCount > 0 && (
-                <span className="ml-1 px-1.5 bg-[#E31837] text-white">{alertCount}</span>
-              )}
-            </button>
+            <Badge count={alertCount} size="small" offset={[-4, 4]}>
+              <Button icon={<BellOutlined />} onClick={onShowDeadlines}>
+                {t('actions.deadlines')}
+              </Button>
+            </Badge>
 
-            <button
-              onClick={onShowReport}
-              className={`${buttonClass} bg-white text-[#003B71]`}
-            >
-              🖋 {t('actions.report')}
-            </button>
+            <Button icon={<FileTextOutlined />} onClick={onShowReport}>
+              {t('actions.report')}
+            </Button>
 
-            <button
-              onClick={onShowStatistics}
-              className={`${buttonClass} bg-white text-[#003B71]`}
-            >
-              📊 {t('actions.stats')}
-            </button>
+            <Button icon={<BarChartOutlined />} onClick={onShowStatistics}>
+              {t('actions.stats')}
+            </Button>
 
-            <button
-              onClick={onExport}
-              className={`${buttonClass} bg-white text-[#003B71]`}
-            >
-              ⬇ {t('actions.export')}
-            </button>
+            <Button icon={<DownloadOutlined />} onClick={onExport}>
+              {t('actions.export')}
+            </Button>
 
-            <button
-              onClick={onImport}
-              className={`${buttonClass} bg-white text-[#003B71]`}
-            >
-              ⬆ {t('actions.import')}
-            </button>
+            <Button icon={<UploadOutlined />} onClick={onImport}>
+              {t('actions.import')}
+            </Button>
 
-            <button
+            <Button
+              type="text"
+              icon={<FileExcelOutlined />}
               onClick={onDownloadTemplate}
-              className={`${buttonClass} bg-transparent text-white border-white/70 hover:bg-white/10`}
+              className="!text-white hover:!text-white/80"
             >
               {t('actions.template')}
-            </button>
+            </Button>
 
-            <button
+            <Button
+              type="text"
+              danger
+              icon={<ClearOutlined />}
               onClick={onClearAll}
-              className={`${buttonClass} bg-transparent text-white border-white/70 hover:bg-white/10`}
+              className="!text-white hover:!text-white/80"
             >
               {t('actions.clearAll')}
-            </button>
+            </Button>
 
-            <button
+            <Button
+              type="text"
+              icon={<LogoutOutlined />}
               onClick={onSignOut}
-              className={`${buttonClass} bg-transparent text-white border-white/70 hover:bg-white/10`}
+              className="!text-white hover:!text-white/80"
             >
               {t('actions.signOut')}
-            </button>
-          </div>
+            </Button>
+          </Space>
         </div>
       </div>
-    </header>
+    </AntHeader>
   );
 }

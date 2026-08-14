@@ -1,12 +1,16 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { Modal, Form, Input, Select, Button, Space, Alert, Typography } from 'antd';
+import { FileTextOutlined, CopyOutlined, DownloadOutlined } from '@ant-design/icons';
 import { useCommonTranslation } from '@/hooks/useTranslation';
 import { useAccess } from '@/components/AccessGate';
 import { apiFetch } from '@/lib/apiClient';
 import { flattenBoard, daysLeft } from '@/lib/taskUtils';
 import type { ReportOptions } from '@/lib/reportPrompt';
 import type { TasksByQuadrant } from '@/types';
+
+const { TextArea } = Input;
 
 interface ReportModalProps {
   isOpen: boolean;
@@ -20,35 +24,21 @@ const PERIODS = ['Báo cáo tuần', 'Báo cáo tháng', 'Báo cáo quý', 'Báo
 export function ReportModal({ isOpen, tasks, onClose }: ReportModalProps) {
   const { t } = useCommonTranslation();
   const { accessKey } = useAccess();
+  const [form] = Form.useForm<ReportOptions>();
 
-  const [options, setOptions] = useState<ReportOptions>({
-    period: PERIODS[1],
-    periodLabel: '',
-    recipient: 'Ban Giám đốc Chi nhánh',
-    unit: 'Phòng Tổ chức Tổng hợp - VietinBank Chi nhánh Bắc Nghệ An',
-    author: '',
-    extraNote: '',
-  });
   const [report, setReport] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
   const payloadTasks = useMemo(
-    () =>
-      flattenBoard(tasks).map((task) => ({
-        ...task,
-        daysLeft: daysLeft(task.dueDate),
-      })),
+    () => flattenBoard(tasks).map((task) => ({ ...task, daysLeft: daysLeft(task.dueDate) })),
     [tasks],
   );
 
   if (!isOpen) return null;
 
-  const set = (patch: Partial<ReportOptions>) =>
-    setOptions((prev) => ({ ...prev, ...patch }));
-
-  const handleGenerate = async () => {
+  const handleGenerate = async (options: ReportOptions) => {
     setIsGenerating(true);
     setError(null);
     setReport('');
@@ -72,7 +62,6 @@ export function ReportModal({ isOpen, tasks, onClose }: ReportModalProps) {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  /** Tải về dạng .doc để mở bằng Word, giữ nguyên xuống dòng */
   const handleDownload = () => {
     const html = `<!DOCTYPE html><html><head><meta charset="utf-8"></head>
 <body style="font-family:'Times New Roman',serif;font-size:13pt;line-height:1.5;white-space:pre-wrap">
@@ -87,139 +76,98 @@ ${report.replace(/&/g, '&amp;').replace(/</g, '&lt;')}
     URL.revokeObjectURL(url);
   };
 
-  const inputClass =
-    'w-full px-3 py-2 border-2 border-[#003B71] text-sm focus:outline-none focus:ring-2 focus:ring-[#0072BC]';
-  const labelClass = 'block text-xs font-semibold mb-1 text-[#003B71]';
-
   return (
-    <div className="fixed inset-0 bg-[#003B71]/50 flex items-start justify-center z-50 p-4 overflow-y-auto">
-      <div className="bg-white border-2 border-[#003B71] max-w-4xl w-full my-6 max-h-[92vh] overflow-y-auto">
-        <div className="flex items-center justify-between px-4 sm:px-6 py-4 sticky top-0 bg-white border-b-2 border-[#003B71] z-10">
-          <h2 className="text-lg sm:text-2xl font-bold tracking-tight text-[#003B71]">
-            🖋 {t('modals.report.title')}
-          </h2>
-          <button
-            onClick={onClose}
-            className="text-[#003B71] hover:opacity-70 text-2xl font-bold"
-            aria-label={t('actions.close')}
-          >
-            ×
-          </button>
+    <Modal
+      title={<>🖋 {t('modals.report.title')}</>}
+      open={isOpen}
+      onCancel={onClose}
+      footer={null}
+      width={800}
+      destroyOnHidden
+    >
+      <Typography.Paragraph type="secondary" style={{ fontSize: 12 }}>
+        {t('modals.report.scope')} <strong>{payloadTasks.length}</strong> {t('modals.report.scopeUnit')}
+      </Typography.Paragraph>
+
+      <Form<ReportOptions>
+        form={form}
+        layout="vertical"
+        onFinish={handleGenerate}
+        initialValues={{
+          period: PERIODS[1],
+          periodLabel: '',
+          recipient: 'Ban Giám đốc Chi nhánh',
+          unit: 'Phòng Tổ chức Tổng hợp - VietinBank Chi nhánh Bắc Nghệ An',
+          author: '',
+          extraNote: '',
+        }}
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
+          <Form.Item name="period" label={t('modals.report.period')}>
+            <Select options={PERIODS.map((p) => ({ value: p, label: p }))} />
+          </Form.Item>
+
+          <Form.Item name="periodLabel" label={t('modals.report.periodLabel')}>
+            <Input placeholder={t('modals.report.periodPlaceholder')} />
+          </Form.Item>
+
+          <Form.Item name="recipient" label={t('modals.report.recipient')}>
+            <Input />
+          </Form.Item>
+
+          <Form.Item name="unit" label={t('modals.report.unit')}>
+            <Input />
+          </Form.Item>
+
+          <Form.Item name="author" label={t('modals.report.author')}>
+            <Input placeholder={t('modals.report.authorPlaceholder')} />
+          </Form.Item>
+
+          <Form.Item name="extraNote" label={t('modals.report.extraNote')}>
+            <Input placeholder={t('modals.report.extraNotePlaceholder')} />
+          </Form.Item>
         </div>
 
-        <div className="px-4 sm:px-6 py-4 space-y-4">
-          <p className="text-xs text-[#7A8FA6]">
-            {t('modals.report.scope')} <strong>{payloadTasks.length}</strong>{' '}
-            {t('modals.report.scopeUnit')}
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label className={labelClass}>{t('modals.report.period')}</label>
-              <select
-                className={inputClass}
-                value={options.period}
-                onChange={(e) => set({ period: e.target.value })}
-              >
-                {PERIODS.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className={labelClass}>{t('modals.report.periodLabel')}</label>
-              <input
-                className={inputClass}
-                placeholder={t('modals.report.periodPlaceholder')}
-                value={options.periodLabel}
-                onChange={(e) => set({ periodLabel: e.target.value })}
-              />
-            </div>
-
-            <div>
-              <label className={labelClass}>{t('modals.report.recipient')}</label>
-              <input
-                className={inputClass}
-                value={options.recipient}
-                onChange={(e) => set({ recipient: e.target.value })}
-              />
-            </div>
-
-            <div>
-              <label className={labelClass}>{t('modals.report.unit')}</label>
-              <input
-                className={inputClass}
-                value={options.unit}
-                onChange={(e) => set({ unit: e.target.value })}
-              />
-            </div>
-
-            <div>
-              <label className={labelClass}>{t('modals.report.author')}</label>
-              <input
-                className={inputClass}
-                placeholder={t('modals.report.authorPlaceholder')}
-                value={options.author}
-                onChange={(e) => set({ author: e.target.value })}
-              />
-            </div>
-
-            <div>
-              <label className={labelClass}>{t('modals.report.extraNote')}</label>
-              <input
-                className={inputClass}
-                placeholder={t('modals.report.extraNotePlaceholder')}
-                value={options.extraNote}
-                onChange={(e) => set({ extraNote: e.target.value })}
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-3">
-            <button
-              onClick={handleGenerate}
-              disabled={isGenerating || payloadTasks.length === 0}
-              className="btn-blue px-6 py-2.5 font-bold text-sm uppercase disabled:opacity-60"
-            >
-              {isGenerating ? t('modals.report.generating') : t('modals.report.generate')}
-            </button>
-
-            {report && (
-              <>
-                <button onClick={handleCopy} className="btn-white px-5 py-2.5 font-bold text-sm uppercase">
-                  {copied ? t('modals.report.copied') : t('modals.report.copy')}
-                </button>
-                <button onClick={handleDownload} className="btn-white px-5 py-2.5 font-bold text-sm uppercase">
-                  {t('modals.report.download')}
-                </button>
-              </>
-            )}
-          </div>
-
-          {error && (
-            <p className="text-sm font-semibold text-[#E31837] border-2 border-[#E31837] bg-[#FDE7EA] px-3 py-2">
-              {error}
-            </p>
-          )}
+        <Space wrap className="mb-4">
+          <Button
+            type="primary"
+            icon={<FileTextOutlined />}
+            htmlType="submit"
+            loading={isGenerating}
+            disabled={payloadTasks.length === 0}
+            size="large"
+          >
+            {isGenerating ? t('modals.report.generating') : t('modals.report.generate')}
+          </Button>
 
           {report && (
-            <div>
-              <label className={labelClass}>{t('modals.report.result')}</label>
-              <textarea
-                className="w-full border-2 border-[#003B71] p-4 text-sm leading-relaxed font-serif h-[420px] focus:outline-none focus:ring-2 focus:ring-[#0072BC]"
-                value={report}
-                onChange={(e) => setReport(e.target.value)}
-              />
-              <p className="text-[11px] text-[#7A8FA6] mt-1">
-                {t('modals.report.reviewHint')}
-              </p>
-            </div>
+            <>
+              <Button icon={<CopyOutlined />} onClick={handleCopy} size="large">
+                {copied ? t('modals.report.copied') : t('modals.report.copy')}
+              </Button>
+              <Button icon={<DownloadOutlined />} onClick={handleDownload} size="large">
+                {t('modals.report.download')}
+              </Button>
+            </>
           )}
+        </Space>
+      </Form>
+
+      {error && <Alert type="error" message={error} showIcon className="mb-4" />}
+
+      {report && (
+        <div>
+          <label className="block text-xs font-semibold mb-1 text-[#00203F]">
+            {t('modals.report.result')}
+          </label>
+          <TextArea
+            value={report}
+            onChange={(e) => setReport(e.target.value)}
+            style={{ height: 420, fontFamily: 'Georgia, serif', fontSize: 13, lineHeight: 1.7 }}
+          />
+          <p className="text-[11px] text-[#5C6B7F] mt-1">{t('modals.report.reviewHint')}</p>
         </div>
-      </div>
-    </div>
+      )}
+    </Modal>
   );
 }

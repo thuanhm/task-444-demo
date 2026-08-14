@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { ReactNode } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { TranslationProvider } from "@/components/TranslationProvider";
+import { AntdThemeProvider } from "@/components/AntdThemeProvider";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 import {
   DEFAULT_LOCALE,
   getCommonMessages,
@@ -80,10 +82,14 @@ export default async function LocaleLayout({
   return (
     <html lang={locale === "vi" ? "vi" : "en"}>
       <body className="antialiased">
-        <TranslationProvider locale={locale} messages={messages}>
-          {children}
-          <Analytics />
-        </TranslationProvider>
+        <AntdRegistry>
+          <AntdThemeProvider locale={locale}>
+            <TranslationProvider locale={locale} messages={messages}>
+              {children}
+              <Analytics />
+            </TranslationProvider>
+          </AntdThemeProvider>
+        </AntdRegistry>
         <SpeedInsights />
       </body>
     </html>

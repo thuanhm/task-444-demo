@@ -24,19 +24,36 @@ màu sắc theo nhận diện thương hiệu VietinBank.
 - Đăng nhập bằng mã truy cập của phòng
 - Song ngữ: Tiếng Việt (mặc định) và English
 
-## Bảng màu nhận diện VietinBank
+## Bảng màu và font chữ
 
 | Vai trò | Mã màu | Ghi chú |
 |---|---|---|
-| Xanh chủ đạo | `#0072BC` | Đầu trang, nút chính, nhóm "Lên lịch" |
-| Xanh đậm | `#003B71` | Đường viền, chữ chính |
-| Đỏ | `#E31837` | Nhóm "Làm ngay", nút xóa |
-| Vàng đồng | `#F5A81C` | Nhóm "Giao việc", nút thống kê |
-| Xám xanh | `#7A8FA6` | Nhóm "Loại bỏ" |
-| Nền | `#EEF3F8` | Nền tổng thể |
+| Xanh rất đậm | `#00203F` | Header, viền, chữ chính |
+| Xanh chủ đạo | `#004A8F` | Nút chính, nhóm "Lên lịch" |
+| Xanh sáng | `#1568B8` | Hover, liên kết |
+| Đỏ | `#EE1C25` | Nhóm "Làm ngay" |
+| Vàng đồng | `#D8A13B` | Nhóm "Giao việc" |
+| Xanh lá | `#1E8E5A` | Trạng thái "Hoàn thành" |
+| Cam vàng | `#C6801E` | Cảnh báo sắp đến hạn |
+| Đỏ đậm | `#D23B3B` | Quá hạn |
+| Xám chữ phụ | `#5C6B7F` | Nhóm "Loại bỏ", chữ phụ |
+| Nền | `#EEF2F7` | Nền tổng thể |
 
-Các mã màu được khai báo tập trung tại `app/globals.css` (biến CSS `--vtb-*`)
-và `constants/index.ts` (đối tượng `COLORS`) — sửa một chỗ là toàn bộ giao diện đổi theo.
+Font chữ: **Plus Jakarta Sans**, nạp qua Google Fonts trong `app/globals.css`.
+
+Mã màu được khai báo tập trung tại `app/globals.css` (biến CSS `--vtb-*`),
+`constants/index.ts` (đối tượng `COLORS`), và `components/AntdThemeProvider.tsx`
+(token màu của Ant Design) — sửa cả ba chỗ này khi cần đổi màu để giao diện
+Tailwind và Ant Design luôn khớp nhau.
+
+## Responsive
+
+Đã kiểm tra và tối ưu cho ba mốc màn hình chính:
+- **Di động** (< 640px): dải số liệu 3 cột, form 1 cột, ma trận 4 nhóm xếp dọc,
+  bảng cuộn ngang, hộp thoại tự co theo `calc(100vw - 16px)`.
+- **Máy tính bảng** (640–1024px): bộ lọc 2 cột, form 2 cột, ma trận vẫn xếp dọc
+  để mỗi nhóm đủ rộng.
+- **Máy tính để bàn** (≥ 1024px): dải số liệu 6 cột, bộ lọc 4 cột, ma trận 2×2.
 
 ## Chạy ứng dụng
 
@@ -65,4 +82,15 @@ Ví dụ đổi tên đơn vị: sửa `header.unit`.
 
 ## Công nghệ
 
-Next.js 16 (App Router) · TypeScript · Tailwind CSS 4 · dnd-kit · Chart.js
+Next.js 16 (App Router) · TypeScript · Tailwind CSS 4 · **Ant Design 5**
+(giao diện: Form, Table, Modal, DatePicker...) · dnd-kit (kéo - thả) · Chart.js
+(biểu đồ) · Neon/PostgreSQL · Google Gemini Flash (tạo báo cáo)
+
+## Giao diện Ant Design
+
+Toàn bộ form, bảng, hộp thoại, nút bấm dùng thư viện Ant Design để chuyên
+nghiệp và nhất quán hơn (validate form, sắp xếp/lọc bảng, chọn ngày kiểu
+Việt Nam...). Màu sắc của AntD được đổi theo nhận diện VietinBank tại
+`components/AntdThemeProvider.tsx` — sửa `token.colorPrimary` và các màu
+trong `theme.token` ở đó, mọi component AntD trong app tự đổi theo, không
+cần sửa từng nơi.

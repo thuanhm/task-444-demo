@@ -1,5 +1,8 @@
 'use client';
 
+import { Card, Row, Col, Input, Select, DatePicker, Checkbox, Button, Space } from 'antd';
+import { SearchOutlined, ReloadOutlined } from '@ant-design/icons';
+import dayjs, { Dayjs } from 'dayjs';
 import { useCommonTranslation } from '@/hooks/useTranslation';
 import { EMPTY_FILTERS, STATUSES } from '@/constants';
 import type { TaskFilters, TaskStatus } from '@/types';
@@ -12,6 +15,9 @@ interface FilterBarProps {
   onChange: (filters: TaskFilters) => void;
 }
 
+const toDayjs = (value: string): Dayjs | null => (value ? dayjs(value) : null);
+const toDateString = (value: Dayjs | null): string => (value ? value.format('YYYY-MM-DD') : '');
+
 /** Thanh lọc công việc: theo phòng, cán bộ, loại việc, trạng thái, khoảng hạn chót */
 export function FilterBar({
   filters,
@@ -23,128 +29,123 @@ export function FilterBar({
   const { t } = useCommonTranslation();
   const set = (patch: Partial<TaskFilters>) => onChange({ ...filters, ...patch });
 
-  const controlClass =
-    'w-full px-2 py-1.5 border-2 border-[#003B71] bg-white text-xs sm:text-sm text-[#003B71] focus:outline-none focus:ring-2 focus:ring-[#0072BC]';
-  const labelClass =
-    'block text-[10px] font-bold uppercase tracking-wide text-[#7A8FA6] mb-1';
+  const toOptions = (values: string[]) => values.map((v) => ({ value: v, label: v }));
 
   return (
-    <section className="bg-white border-2 border-[#003B71] p-3 sm:p-4 mb-4 sm:mb-6">
-      <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3">
-        <div className="col-span-2 lg:col-span-1">
-          <label className={labelClass}>{t('filters.keyword')}</label>
-          <input
-            className={controlClass}
+    <Card size="small" style={{ border: '2px solid #00203F', borderRadius: 2 }} className="mb-4 sm:mb-6">
+      <Row gutter={[12, 12]}>
+        <Col xs={24} sm={12} lg={6}>
+          <label className="block text-[10px] font-bold uppercase tracking-wide text-[#5C6B7F] mb-1">
+            {t('filters.keyword')}
+          </label>
+          <Input
+            allowClear
+            prefix={<SearchOutlined />}
             placeholder={t('filters.keywordPlaceholder')}
             value={filters.keyword}
             onChange={(e) => set({ keyword: e.target.value })}
           />
-        </div>
+        </Col>
 
-        <div>
-          <label className={labelClass}>{t('fields.department')}</label>
-          <select
-            className={controlClass}
-            value={filters.department}
-            onChange={(e) => set({ department: e.target.value })}
-          >
-            <option value="">{t('filters.all')}</option>
-            {departments.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-        </div>
+        <Col xs={12} sm={12} lg={6}>
+          <label className="block text-[10px] font-bold uppercase tracking-wide text-[#5C6B7F] mb-1">
+            {t('fields.department')}
+          </label>
+          <Select
+            allowClear
+            style={{ width: '100%' }}
+            placeholder={t('filters.all')}
+            value={filters.department || undefined}
+            onChange={(value) => set({ department: value ?? '' })}
+            options={toOptions(departments)}
+            showSearch
+          />
+        </Col>
 
-        <div>
-          <label className={labelClass}>{t('fields.assignee')}</label>
-          <select
-            className={controlClass}
-            value={filters.assignee}
-            onChange={(e) => set({ assignee: e.target.value })}
-          >
-            <option value="">{t('filters.all')}</option>
-            {assignees.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-        </div>
+        <Col xs={12} sm={12} lg={6}>
+          <label className="block text-[10px] font-bold uppercase tracking-wide text-[#5C6B7F] mb-1">
+            {t('fields.assignee')}
+          </label>
+          <Select
+            allowClear
+            style={{ width: '100%' }}
+            placeholder={t('filters.all')}
+            value={filters.assignee || undefined}
+            onChange={(value) => set({ assignee: value ?? '' })}
+            options={toOptions(assignees)}
+            showSearch
+          />
+        </Col>
 
-        <div>
-          <label className={labelClass}>{t('fields.category')}</label>
-          <select
-            className={controlClass}
-            value={filters.category}
-            onChange={(e) => set({ category: e.target.value })}
-          >
-            <option value="">{t('filters.all')}</option>
-            {categories.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-        </div>
+        <Col xs={12} sm={12} lg={6}>
+          <label className="block text-[10px] font-bold uppercase tracking-wide text-[#5C6B7F] mb-1">
+            {t('fields.category')}
+          </label>
+          <Select
+            allowClear
+            style={{ width: '100%' }}
+            placeholder={t('filters.all')}
+            value={filters.category || undefined}
+            onChange={(value) => set({ category: value ?? '' })}
+            options={toOptions(categories)}
+            showSearch
+          />
+        </Col>
 
-        <div>
-          <label className={labelClass}>{t('fields.status')}</label>
-          <select
-            className={controlClass}
+        <Col xs={12} sm={12} lg={6}>
+          <label className="block text-[10px] font-bold uppercase tracking-wide text-[#5C6B7F] mb-1">
+            {t('fields.status')}
+          </label>
+          <Select
+            style={{ width: '100%' }}
             value={filters.status}
-            onChange={(e) => set({ status: e.target.value as TaskStatus | 'all' })}
-          >
-            <option value="all">{t('filters.all')}</option>
-            {STATUSES.map((status) => (
-              <option key={status.id} value={status.id}>
-                {t(`status.${status.id}`)}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <label className={labelClass}>{t('filters.dueFrom')}</label>
-          <input
-            type="date"
-            className={controlClass}
-            value={filters.dueFrom}
-            onChange={(e) => set({ dueFrom: e.target.value })}
+            onChange={(value) => set({ status: value as TaskStatus | 'all' })}
+            options={[
+              { value: 'all', label: t('filters.all') },
+              ...STATUSES.map((s) => ({ value: s.id, label: t(`status.${s.id}`) })),
+            ]}
           />
-        </div>
+        </Col>
 
-        <div>
-          <label className={labelClass}>{t('filters.dueTo')}</label>
-          <input
-            type="date"
-            className={controlClass}
-            value={filters.dueTo}
-            onChange={(e) => set({ dueTo: e.target.value })}
+        <Col xs={12} sm={12} lg={6}>
+          <label className="block text-[10px] font-bold uppercase tracking-wide text-[#5C6B7F] mb-1">
+            {t('filters.dueFrom')}
+          </label>
+          <DatePicker
+            style={{ width: '100%' }}
+            format="DD/MM/YYYY"
+            value={toDayjs(filters.dueFrom)}
+            onChange={(value) => set({ dueFrom: toDateString(value) })}
           />
-        </div>
-      </div>
+        </Col>
 
-      <div className="flex flex-wrap items-center gap-3 mt-3">
-        <label className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#003B71]">
-          <input
-            type="checkbox"
-            className="custom-checkbox"
-            checked={filters.onlyAtRisk}
-            onChange={(e) => set({ onlyAtRisk: e.target.checked })}
+        <Col xs={12} sm={12} lg={6}>
+          <label className="block text-[10px] font-bold uppercase tracking-wide text-[#5C6B7F] mb-1">
+            {t('filters.dueTo')}
+          </label>
+          <DatePicker
+            style={{ width: '100%' }}
+            format="DD/MM/YYYY"
+            value={toDayjs(filters.dueTo)}
+            onChange={(value) => set({ dueTo: toDateString(value) })}
           />
-          {t('filters.onlyAtRisk')}
-        </label>
+        </Col>
+      </Row>
 
-        <button
-          type="button"
-          onClick={() => onChange({ ...EMPTY_FILTERS })}
-          className="btn-white px-4 py-1.5 text-xs font-bold uppercase"
+      <Space wrap className="mt-3" size={12}>
+        <Checkbox
+          checked={filters.onlyAtRisk}
+          onChange={(e) => set({ onlyAtRisk: e.target.checked })}
         >
+          <span className="text-xs sm:text-sm font-semibold text-[#00203F]">
+            {t('filters.onlyAtRisk')}
+          </span>
+        </Checkbox>
+
+        <Button icon={<ReloadOutlined />} onClick={() => onChange({ ...EMPTY_FILTERS })}>
           {t('filters.reset')}
-        </button>
-      </div>
-    </section>
+        </Button>
+      </Space>
+    </Card>
   );
 }

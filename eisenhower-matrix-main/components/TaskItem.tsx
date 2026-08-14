@@ -1,5 +1,7 @@
 'use client';
 
+import { Checkbox, Tag, Tooltip } from 'antd';
+import { EditOutlined, CloseOutlined, BankOutlined, UserOutlined, CalendarOutlined } from '@ant-design/icons';
 import { Task, QuadrantType, DeadlineThresholds } from '@/types';
 import { QUADRANTS, DEADLINE_COLORS, STATUSES } from '@/constants';
 import { deadlineLevel, formatDate, daysLeft } from '@/lib/taskUtils';
@@ -30,11 +32,10 @@ export function TaskItem({
 }: TaskItemProps) {
   const { t } = useCommonTranslation();
 
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({
-      id: id || `${quadrant}-${task.id}`,
-      disabled: isDragOverlay,
-    });
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: id || `${quadrant}-${task.id}`,
+    disabled: isDragOverlay,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -42,105 +43,89 @@ export function TaskItem({
     opacity: isDragging ? 0.5 : 1,
   };
 
-  const quadrantColor =
-    QUADRANTS.find((q) => q.id === quadrant)?.color || '#0072BC';
-  const statusColor =
-    STATUSES.find((s) => s.id === task.status)?.color || '#7A8FA6';
+  const quadrantColor = QUADRANTS.find((q) => q.id === quadrant)?.color || '#004A8F';
+  const statusColor = STATUSES.find((s) => s.id === task.status)?.color || '#5C6B7F';
 
-  // Mức cảnh báo hạn chót quyết định màu của thẻ ngày
   const level = deadlineLevel(task, thresholds);
   const left = daysLeft(task.dueDate);
   const dueColor = DEADLINE_COLORS[level];
 
   const body = (
-    <>
-      <div className="flex items-start gap-2 sm:gap-3">
-        <input
-          type="checkbox"
-          className="custom-checkbox mt-0.5"
-          checked={task.completed}
-          onChange={onToggle}
-          disabled={isDragOverlay}
-          aria-label={t('tasks.toggleTitle')}
-        />
+    <div className="flex items-start gap-2 sm:gap-3">
+      <Checkbox
+        checked={task.completed}
+        onChange={onToggle}
+        disabled={isDragOverlay}
+        aria-label={t('tasks.toggleTitle')}
+        onClick={(e) => e.stopPropagation()}
+      />
 
-        <div className="flex-1 min-w-0">
-          <p className="task-text text-xs sm:text-sm font-semibold leading-relaxed wrap-break-word select-none text-[#003B71]">
-            {task.text}
-          </p>
+      <div className="flex-1 min-w-0">
+        <p className="task-text text-xs sm:text-sm font-semibold leading-relaxed wrap-break-word select-none text-[#00203F]">
+          {task.text}
+        </p>
 
-          {/* Các thẻ thông tin: phòng phụ trách, cán bộ, loại việc */}
-          <div className="flex flex-wrap items-center gap-1.5 mt-2">
-            {task.department && (
-              <span className="px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide bg-[#DCEBF8] text-[#003B71] border border-[#0072BC]">
-                🏢 {task.department}
-              </span>
-            )}
-            {task.assignee && (
-              <span className="px-1.5 py-0.5 text-[10px] font-semibold bg-[#EEF3F8] text-[#003B71] border border-[#B7C4D2]">
-                👤 {task.assignee}
-              </span>
-            )}
-            {task.category && (
-              <span className="px-1.5 py-0.5 text-[10px] font-semibold bg-white text-[#7A8FA6] border border-[#B7C4D2]">
-                {task.category}
-              </span>
-            )}
-            <span
-              className="px-1.5 py-0.5 text-[10px] font-bold text-white"
-              style={{ backgroundColor: statusColor }}
-            >
-              {t(`status.${task.status}`)}
-            </span>
-            {task.dueDate && (
-              <span
-                className="px-1.5 py-0.5 text-[10px] font-bold text-white"
-                style={{ backgroundColor: dueColor }}
-                title={t('fields.dueDate')}
-              >
-                📅 {formatDate(task.dueDate)}
+        <div className="flex flex-wrap items-center gap-1.5 mt-2">
+          {task.department && (
+            <Tag icon={<BankOutlined />} color="blue">
+              {task.department}
+            </Tag>
+          )}
+          {task.assignee && (
+            <Tag icon={<UserOutlined />}>{task.assignee}</Tag>
+          )}
+          {task.category && <Tag>{task.category}</Tag>}
+          <Tag color={statusColor} style={{ color: '#fff' }}>
+            {t(`status.${task.status}`)}
+          </Tag>
+          {task.dueDate && (
+            <Tooltip title={t('fields.dueDate')}>
+              <Tag icon={<CalendarOutlined />} color={dueColor} style={{ color: '#fff' }}>
+                {formatDate(task.dueDate)}
                 {level !== 'none' && left !== null && (
                   <span className="ml-1">
-                    ({left < 0 ? `${t('tasks.lateBy')} ${Math.abs(left)}` : `${t('tasks.daysLeftShort')} ${left}`})
+                    (
+                    {left < 0
+                      ? `${t('tasks.lateBy')} ${Math.abs(left)}`
+                      : `${t('tasks.daysLeftShort')} ${left}`}
+                    )
                   </span>
                 )}
-              </span>
-            )}
-          </div>
-
-          {task.note && (
-            <p className="text-[11px] text-[#7A8FA6] mt-1.5 wrap-break-word">
-              {task.note}
-            </p>
+              </Tag>
+            </Tooltip>
           )}
         </div>
 
-        {!isDragOverlay && (
-          <div className="flex gap-2 shrink-0">
-            <button
-              onClick={onEdit}
-              className="text-[#003B71] font-bold text-base cursor-pointer hover:text-[#0072BC] transition-colors"
-              title={t('tasks.editTitle')}
-            >
-              ✎
-            </button>
-            <button
-              onClick={onDelete}
-              className="text-[#E31837] hover:opacity-70 font-bold text-lg cursor-pointer transition-colors"
-              title={t('tasks.deleteTitle')}
-            >
-              ×
-            </button>
-          </div>
-        )}
+        {task.note && <p className="text-[11px] text-[#5C6B7F] mt-1.5 wrap-break-word">{task.note}</p>}
       </div>
-    </>
+
+      {!isDragOverlay && (
+        <div className="flex gap-2 shrink-0">
+          <EditOutlined
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit();
+            }}
+            className="text-[#00203F] hover:text-[#004A8F] transition-colors cursor-pointer"
+            title={t('tasks.editTitle')}
+          />
+          <CloseOutlined
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete();
+            }}
+            className="text-[#EE1C25] hover:opacity-70 transition-colors cursor-pointer"
+            title={t('tasks.deleteTitle')}
+          />
+        </div>
+      )}
+    </div>
   );
 
   if (isDragOverlay) {
     return (
       <div
-        className={`task-item quadrant-${quadrant} border-2 border-[#003B71] p-3 sm:p-4 bg-white shadow-lg ${
+        className={`task-item quadrant-${quadrant} border-2 border-[#00203F] p-3 sm:p-4 bg-white shadow-lg ${
           task.completed ? 'completed' : ''
         }`}
         style={{ borderLeftColor: quadrantColor, borderLeftWidth: '4px' }}
@@ -154,7 +139,7 @@ export function TaskItem({
     <div
       ref={setNodeRef}
       style={style}
-      className={`task-item quadrant-${quadrant} border-2 border-[#003B71] p-3 sm:p-4 bg-white ${
+      className={`task-item quadrant-${quadrant} border-2 border-[#00203F] p-3 sm:p-4 bg-white ${
         task.completed ? 'completed' : ''
       } ${isDragging ? 'z-50' : ''} cursor-move transition-colors`}
       {...attributes}

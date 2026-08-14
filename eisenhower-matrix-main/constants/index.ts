@@ -9,16 +9,21 @@ import type {
  * Bảng màu theo nhận diện thương hiệu VietinBank
  */
 export const COLORS = {
-  blue: '#0072BC',       // Xanh VietinBank (chủ đạo)
-  navy: '#003B71',       // Xanh đậm - viền, chữ
-  red: '#E31837',        // Đỏ VietinBank
-  gold: '#F5A81C',       // Vàng đồng
-  green: '#0E9F6E',      // Xanh lá - đã hoàn thành
-  teal: '#00A0A8',
-  slate: '#7A8FA6',      // Xám xanh
-  background: '#EEF3F8',
+  navyDark: '#00203F',   // Xanh rất đậm - header, nhấn mạnh
+  navy: '#004A8F',       // Xanh VietinBank (chủ đạo)
+  blue: '#004A8F',       // Bí danh giữ tương thích ngược
+  navyLight: '#1568B8',  // Xanh sáng - hover, liên kết
+  red: '#EE1C25',        // Đỏ VietinBank
+  gold: '#D8A13B',       // Vàng đồng
+  green: '#1E8E5A',      // Xanh lá - đã hoàn thành / tốt
+  warn: '#C6801E',       // Cam vàng - cảnh báo
+  bad: '#D23B3B',        // Đỏ - lỗi / quá hạn
+  slate: '#5C6B7F',      // Xám xanh - chữ phụ
+  ink: '#122238',        // Màu chữ chính
+  background: '#EEF2F7',
   surface: '#FFFFFF',
-  lightBlue: '#DCEBF8',
+  line: '#DCE3EC',       // Màu viền nhạt
+  lightBlue: '#EEF2F7',
 } as const;
 
 /** Bốn nhóm công việc của Ma trận Eisenhower */
@@ -76,9 +81,9 @@ export const EMPTY_FILTERS: TaskFilters = {
 
 /** Màu theo mức cảnh báo hạn chót */
 export const DEADLINE_COLORS = {
-  overdue: '#B00020',
+  overdue: COLORS.bad,
   red: COLORS.red,
-  amber: COLORS.gold,
+  amber: COLORS.warn,
   normal: COLORS.slate,
-  none: '#B7C4D2',
+  none: COLORS.line,
 } as const;
