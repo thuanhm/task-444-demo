@@ -85,7 +85,10 @@ export function AccessProvider({ children }: { children: ReactNode }) {
 
   if (!accessKey) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4 bg-[#EEF2F7]">
+      <div
+        className="min-h-screen flex items-center justify-center px-4"
+        style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+      >
         <Card
           style={{ maxWidth: 380, width: '100%', border: '2px solid #00203F', borderRadius: 2 }}
         >
