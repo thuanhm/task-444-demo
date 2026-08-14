@@ -49,7 +49,7 @@ export function Header({
         height: 'auto',
         lineHeight: 'normal',
         padding: 0,
-        background: '#004A8F',
+        background: 'linear-gradient(90deg, rgb(0, 89, 147), rgb(215, 18, 73))',
         borderBottom: '4px solid #00203F',
       }}
     >
