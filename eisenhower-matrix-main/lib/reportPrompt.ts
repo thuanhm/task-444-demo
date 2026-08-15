@@ -110,7 +110,7 @@ function buildDataSection(tasks: ReportTask[]): string {
 
 /** Lời nhắc gửi cho Gemini: quy định văn phong hành chính và bố cục báo cáo */
 export function buildReportPrompt(tasks: ReportTask[], options: ReportOptions): string {
-  return `Bạn là chuyên viên Phòng Tổng hợp của một chi nhánh ngân hàng thương mại Việt Nam.
+  return `Bạn là chuyên viên Phòng Tổ chức Tổng hợp của một chi nhánh ngân hàng thương mại cổ phần Công Thương Việt Nam.
 Hãy soạn một BÁO CÁO bằng tiếng Việt, đúng văn phong hành chính công vụ trong ngành ngân hàng,
 về tình hình thực hiện các nhiệm vụ được giao.
 
