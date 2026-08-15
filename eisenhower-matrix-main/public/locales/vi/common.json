@@ -106,9 +106,10 @@
       "generating": "Đang soạn thảo...",
       "copy": "Sao chép",
       "copied": "Đã sao chép",
-      "download": "Tải về (.doc)",
+      "download": "Tải về (.docx)",
       "result": "Nội dung báo cáo (có thể sửa trực tiếp)",
-      "reviewHint": "Báo cáo do AI soạn từ dữ liệu trên hệ thống. Cần đọc, đối chiếu số liệu và chỉnh sửa trước khi trình ký."
+      "reviewHint": "Báo cáo do AI soạn từ dữ liệu trên hệ thống. Cần đọc, đối chiếu số liệu và chỉnh sửa trước khi trình ký.",
+      "exportFailed": "Không tạo được tệp Word. Vui lòng thử lại."
     }
   },
   "tasks": {

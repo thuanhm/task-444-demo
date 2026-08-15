@@ -7,6 +7,7 @@ import { useCommonTranslation } from '@/hooks/useTranslation';
 import { useAccess } from '@/components/AccessGate';
 import { apiFetch } from '@/lib/apiClient';
 import { flattenBoard, daysLeft } from '@/lib/taskUtils';
+import { exportReportToDocx } from '@/lib/exportDocx';
 import type { ReportOptions } from '@/lib/reportPrompt';
 import type { TasksByQuadrant } from '@/types';
 
@@ -30,6 +31,7 @@ export function ReportModal({ isOpen, tasks, onClose }: ReportModalProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
 
   const payloadTasks = useMemo(
     () => flattenBoard(tasks).map((task) => ({ ...task, daysLeft: daysLeft(task.dueDate) })),
@@ -62,18 +64,17 @@ export function ReportModal({ isOpen, tasks, onClose }: ReportModalProps) {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleDownload = () => {
-    const html = `<!DOCTYPE html><html><head><meta charset="utf-8"></head>
-<body style="font-family:'Times New Roman',serif;font-size:13pt;line-height:1.5;white-space:pre-wrap">
-${report.replace(/&/g, '&amp;').replace(/</g, '&lt;')}
-</body></html>`;
-    const blob = new Blob([html], { type: 'application/msword;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `Bao-cao-nhiem-vu-${new Date().toISOString().slice(0, 10)}.doc`;
-    link.click();
-    URL.revokeObjectURL(url);
+  /** Xuất file .docx thật (chuẩn OOXML), mở trực tiếp bằng Word không cảnh báo */
+  const handleDownload = async () => {
+    setIsExporting(true);
+    try {
+      const stamp = new Date().toISOString().slice(0, 10);
+      await exportReportToDocx(report, `Bao-cao-nhiem-vu-${stamp}.docx`);
+    } catch {
+      setError(t('modals.report.exportFailed'));
+    } finally {
+      setIsExporting(false);
+    }
   };
 
   return (
@@ -145,7 +146,7 @@ ${report.replace(/&/g, '&amp;').replace(/</g, '&lt;')}
               <Button icon={<CopyOutlined />} onClick={handleCopy} size="large">
                 {copied ? t('modals.report.copied') : t('modals.report.copy')}
               </Button>
-              <Button icon={<DownloadOutlined />} onClick={handleDownload} size="large">
+              <Button icon={<DownloadOutlined />} onClick={handleDownload} loading={isExporting} size="large">
                 {t('modals.report.download')}
               </Button>
             </>

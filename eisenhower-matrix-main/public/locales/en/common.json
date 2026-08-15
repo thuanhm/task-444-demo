@@ -106,9 +106,10 @@
       "generating": "Drafting...",
       "copy": "Copy",
       "copied": "Copied",
-      "download": "Download (.doc)",
+      "download": "Download (.docx)",
       "result": "Report content (editable)",
-      "reviewHint": "Drafted by AI from system data. Review the figures and edit before signing."
+      "reviewHint": "Drafted by AI from system data. Review the figures and edit before signing.",
+      "exportFailed": "Could not create the Word file. Please try again."
     }
   },
   "confirm": {
