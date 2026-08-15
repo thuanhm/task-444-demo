@@ -376,6 +376,9 @@ function TaskBoard() {
         isOpen={isReportOpen}
         tasks={visibleTasks}
         onClose={() => setIsReportOpen(false)}
+        onApplyDateFilter={(from, to) =>
+          setFilters((prev) => ({ ...prev, dueFrom: from, dueTo: to }))
+        }
       />
 
       <DeadlineAlertModal

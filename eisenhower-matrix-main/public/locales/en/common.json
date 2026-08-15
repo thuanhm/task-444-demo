@@ -109,7 +109,12 @@
       "download": "Download (.docx)",
       "result": "Report content (editable)",
       "reviewHint": "Drafted by AI from system data. Review the figures and edit before signing.",
-      "exportFailed": "Could not create the Word file. Please try again."
+      "exportFailed": "Could not create the Word file. Please try again.",
+      "rangeLabel": "Reporting period range",
+      "limitByRange": "Only include tasks due within this range",
+      "applyFilter": "Apply to main filter",
+      "filterApplied": "Applied to filter",
+      "undatedExcluded": "tasks without a due date are excluded"
     }
   },
   "confirm": {
