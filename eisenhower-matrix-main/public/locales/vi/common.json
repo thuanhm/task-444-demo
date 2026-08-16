@@ -126,7 +126,8 @@
   },
   "confirm": {
     "clearAll": "Bạn có chắc chắn muốn xóa TẤT CẢ công việc? Thao tác này không thể hoàn tác.",
-    "deleteTask": "Bạn có chắc chắn muốn xóa công việc này?"
+    "deleteTask": "Bạn có chắc chắn muốn xóa công việc này?",
+    "importFile": "Chỉ nhập file Excel/CSV từ nguồn nội bộ đáng tin cậy. File lạ hoặc tải từ email/internet có thể làm treo trình duyệt khi đọc. Tiếp tục chọn file?"
   },
   "footer": {
     "text": "Công cụ quản trị công việc nội bộ — VietinBank Chi nhánh Bắc Nghệ An",

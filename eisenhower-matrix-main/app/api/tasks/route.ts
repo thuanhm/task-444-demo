@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getSql, WORKSPACE } from '@/lib/db';
 import { checkAccess } from '@/lib/auth';
 import { rowToTask, sanitizeInput, type TaskRow } from '@/lib/taskRow';
+import { checkRateLimit } from '@/lib/rateLimit';
 import { QUADRANTS } from '@/constants';
 import type { QuadrantType, TasksByQuadrant } from '@/types';
 
@@ -20,6 +21,9 @@ const emptyBoard = (): TasksByQuadrant => ({
 export async function GET(request: Request) {
   const denied = checkAccess(request);
   if (denied) return denied;
+
+  const limited = checkRateLimit(request, { scope: 'tasks', limit: 60, windowMs: 60_000 });
+  if (limited) return limited;
 
   try {
     const sql = getSql();
@@ -50,6 +54,9 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   const denied = checkAccess(request);
   if (denied) return denied;
+
+  const limited = checkRateLimit(request, { scope: 'tasks', limit: 60, windowMs: 60_000 });
+  if (limited) return limited;
 
   try {
     const body = await request.json();
@@ -90,6 +97,9 @@ export async function POST(request: Request) {
 export async function DELETE(request: Request) {
   const denied = checkAccess(request);
   if (denied) return denied;
+
+  const limited = checkRateLimit(request, { scope: 'tasks', limit: 60, windowMs: 60_000 });
+  if (limited) return limited;
 
   try {
     const sql = getSql();

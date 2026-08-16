@@ -119,7 +119,8 @@
   },
   "confirm": {
     "clearAll": "Are you sure you want to clear ALL tasks? This cannot be undone.",
-    "deleteTask": "Are you sure you want to delete this task?"
+    "deleteTask": "Are you sure you want to delete this task?",
+    "importFile": "Only import Excel/CSV files from a trusted internal source. Unknown files (e.g. from email or the internet) may freeze your browser while reading. Continue selecting a file?"
   },
   "seo": {
     "title": "Eisenhower Matrix – Online Task Prioritization Tool",

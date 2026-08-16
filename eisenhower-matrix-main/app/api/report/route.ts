@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { checkAccess } from '@/lib/auth';
 import { buildReportPrompt, type ReportOptions, type ReportTask } from '@/lib/reportPrompt';
+import { checkRateLimit } from '@/lib/rateLimit';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -56,6 +57,10 @@ async function callGemini(model: string, apiKey: string, prompt: string) {
 export async function POST(request: Request) {
   const denied = checkAccess(request);
   if (denied) return denied;
+
+  // Tạo báo cáo tốn hạn mức Gemini nên giới hạn chặt hơn các API khác
+  const limited = checkRateLimit(request, { scope: 'report', limit: 5, windowMs: 5 * 60_000 });
+  if (limited) return limited;
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {

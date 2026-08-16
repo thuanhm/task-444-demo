@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getSql, WORKSPACE } from '@/lib/db';
 import { checkAccess } from '@/lib/auth';
 import { QUADRANTS } from '@/constants';
+import { checkRateLimit } from '@/lib/rateLimit';
 import type { QuadrantType } from '@/types';
 
 export const dynamic = 'force-dynamic';
@@ -16,6 +17,9 @@ const QUADRANT_IDS = QUADRANTS.map((q) => q.id) as QuadrantType[];
 export async function POST(request: Request) {
   const denied = checkAccess(request);
   if (denied) return denied;
+
+  const limited = checkRateLimit(request, { scope: 'tasks', limit: 60, windowMs: 60_000 });
+  if (limited) return limited;
 
   try {
     const body = await request.json();

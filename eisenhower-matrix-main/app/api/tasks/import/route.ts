@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getSql, WORKSPACE } from '@/lib/db';
 import { checkAccess } from '@/lib/auth';
 import { sanitizeInput } from '@/lib/taskRow';
+import { checkRateLimit } from '@/lib/rateLimit';
 import { QUADRANTS } from '@/constants';
 import type { QuadrantType } from '@/types';
 
@@ -17,6 +18,10 @@ const QUADRANT_IDS = QUADRANTS.map((q) => q.id) as QuadrantType[];
 export async function POST(request: Request) {
   const denied = checkAccess(request);
   if (denied) return denied;
+
+  // Mỗi lần nhập có thể tới 1.000 dòng nên giới hạn chặt hơn CRUD thường
+  const limited = checkRateLimit(request, { scope: 'import', limit: 5, windowMs: 60_000 });
+  if (limited) return limited;
 
   try {
     const body = await request.json();

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getSql, WORKSPACE } from '@/lib/db';
 import { checkAccess } from '@/lib/auth';
 import { rowToTask, normalizeStatus, type TaskRow } from '@/lib/taskRow';
+import { checkRateLimit } from '@/lib/rateLimit';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,6 +18,9 @@ interface RouteContext {
 export async function PATCH(request: Request, context: RouteContext) {
   const denied = checkAccess(request);
   if (denied) return denied;
+
+  const limited = checkRateLimit(request, { scope: 'tasks', limit: 60, windowMs: 60_000 });
+  if (limited) return limited;
 
   const { id } = await context.params;
   const taskId = Number(id);
@@ -84,6 +88,9 @@ export async function PATCH(request: Request, context: RouteContext) {
 export async function DELETE(request: Request, context: RouteContext) {
   const denied = checkAccess(request);
   if (denied) return denied;
+
+  const limited = checkRateLimit(request, { scope: 'tasks', limit: 60, windowMs: 60_000 });
+  if (limited) return limited;
 
   const { id } = await context.params;
   const taskId = Number(id);

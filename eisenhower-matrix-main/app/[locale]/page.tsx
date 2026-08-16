@@ -233,7 +233,9 @@ function TaskBoard() {
         onShowDeadlines={() => setIsDeadlineOpen(true)}
         onShowReport={() => setIsReportOpen(true)}
         onExport={handleExport}
-        onImport={() => fileInputRef.current?.click()}
+        onImport={() => {
+          if (confirm(t('confirm.importFile'))) fileInputRef.current?.click();
+        }}
         onDownloadTemplate={downloadTemplate}
         onSignOut={signOut}
         alertCount={alertCount}
