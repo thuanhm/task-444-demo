@@ -46,6 +46,13 @@ export function formatDate(dueDate: string): string {
   return y && m && d ? `${d}/${m}/${y}` : dueDate;
 }
 
+/** Hiển thị ngày rút gọn dd/mm (không kèm năm) — dùng cho badge nhỏ trên thẻ công việc */
+export function formatDateShort(dueDate: string): string {
+  if (!dueDate) return '';
+  const [, m, d] = dueDate.split('-');
+  return m && d ? `${d}/${m}` : dueDate;
+}
+
 /** Một công việc có thỏa bộ lọc hay không */
 export function matchesFilters(
   task: Task,
