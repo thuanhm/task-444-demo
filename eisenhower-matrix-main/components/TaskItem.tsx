@@ -146,7 +146,7 @@ export function TaskItem({
   if (isDragOverlay) {
     return (
       <div
-        className={`task-item quadrant-${quadrant} border-2 border-[#00203F] p-3 sm:p-4 bg-white shadow-lg ${
+        className={`task-item quadrant-${quadrant} border border-[#DCE3EC] rounded-md p-3 sm:p-4 bg-white shadow-lg ${
           task.completed ? 'completed' : ''
         }`}
         style={{ borderLeftColor: quadrantColor, borderLeftWidth: '4px' }}
@@ -160,9 +160,9 @@ export function TaskItem({
     <div
       ref={setNodeRef}
       style={style}
-      className={`task-item quadrant-${quadrant} border-2 border-[#00203F] p-3 sm:p-4 bg-white ${
+      className={`task-item quadrant-${quadrant} border border-[#DCE3EC] rounded-md p-3 sm:p-4 bg-white ${
         task.completed ? 'completed' : ''
-      } ${isDragging ? 'z-50' : ''} cursor-move transition-colors`}
+      } ${isDragging ? 'z-50' : ''} cursor-move transition-colors hover:shadow-md`}
       {...attributes}
       {...listeners}
     >

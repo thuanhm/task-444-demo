@@ -32,7 +32,7 @@ export function FilterBar({
   const toOptions = (values: string[]) => values.map((v) => ({ value: v, label: v }));
 
   return (
-    <Card size="small" style={{ border: '2px solid #00203F', borderRadius: 2 }} className="mb-4 sm:mb-6">
+    <Card size="small" style={{ border: '1px solid #DCE3EC', borderRadius: 8, boxShadow: '0 1px 3px rgba(0,32,63,0.08)' }} className="mb-4 sm:mb-6">
       <Row gutter={[12, 12]}>
         <Col xs={24} sm={12} lg={6}>
           <label className="block text-[10px] font-bold uppercase tracking-wide text-[#5C6B7F] mb-1">

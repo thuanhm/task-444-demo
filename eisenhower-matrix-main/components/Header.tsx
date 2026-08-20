@@ -50,7 +50,7 @@ export function Header({
         lineHeight: 'normal',
         padding: 0,
         background: 'linear-gradient(90deg, rgb(0, 89, 147), rgb(215, 18, 73))',
-        borderBottom: '4px solid #00203F',
+        boxShadow: '0 2px 8px rgba(0,32,63,0.25)',
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-5">

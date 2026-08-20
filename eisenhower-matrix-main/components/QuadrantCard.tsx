@@ -67,9 +67,9 @@ export function QuadrantCard({
   return (
     <Card
       style={{
-        border: "2px solid #00203F",
-        borderRadius: 2,
-        boxShadow: isOver ? `0 0 0 3px ${config.color}` : "none",
+        border: "1px solid #DCE3EC",
+        borderRadius: 8,
+        boxShadow: isOver ? `0 0 0 2px ${config.color}` : "0 1px 3px rgba(0,32,63,0.08)",
         transition: "box-shadow 150ms ease",
       }}
       styles={{ body: { padding: '16px 20px' } }}
@@ -81,7 +81,7 @@ export function QuadrantCard({
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
             <div
-              className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-[#00203F] shrink-0"
+              className="w-3 h-3 sm:w-4 sm:h-4 rounded-sm shrink-0"
               style={{ backgroundColor: config.color }}
             />
             <h2 className="text-lg sm:text-xl lg:text-2xl font-bold tracking-tight truncate text-[#00203F]">
@@ -96,7 +96,7 @@ export function QuadrantCard({
           type="primary"
           icon={<PlusOutlined />}
           onClick={onAddTask}
-          style={{ backgroundColor: config.color, borderColor: "#00203F" }}
+          style={{ backgroundColor: config.color, borderColor: config.color }}
         >
           {t("quadrants.addButton")}
         </Button>

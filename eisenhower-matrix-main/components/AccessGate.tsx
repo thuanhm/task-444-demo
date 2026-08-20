@@ -90,7 +90,7 @@ export function AccessProvider({ children }: { children: ReactNode }) {
         style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
       >
         <Card
-          style={{ maxWidth: 380, width: '100%', border: '2px solid #00203F', borderRadius: 2 }}
+          style={{ maxWidth: 380, width: '100%', border: '1px solid #DCE3EC', borderRadius: 8, boxShadow: '0 4px 16px rgba(0,32,63,0.15)' }}
         >
           <div className="flex items-center gap-2 mb-3">
             <span className="inline-block w-2 h-6 bg-[#D8A13B]" />

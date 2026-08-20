@@ -287,7 +287,7 @@ function TaskBoard() {
             <Col key={item.label} span={8} lg={4}>
               <Card
                 size="small"
-                style={{ border: '2px solid #00203F', borderRadius: 2, textAlign: 'center' }}
+                style={{ border: '1px solid #DCE3EC', borderRadius: 8, textAlign: 'center', boxShadow: '0 1px 3px rgba(0,32,63,0.08)' }}
                 styles={{ body: { padding: '10px 8px' } }}
               >
                 <Statistic value={item.value} valueStyle={{ color: item.color, fontSize: 22, fontWeight: 700 }} />
